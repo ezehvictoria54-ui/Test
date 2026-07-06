@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bone text-ink font-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  /* Always-visible, on-brand focus ring for keyboard users. */
+  :focus-visible {
+    outline: 2px solid theme("colors.brass");
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Uppercase brass label with wide letter-spacing. */
+  .eyebrow {
+    @apply font-body text-[0.7rem] font-medium uppercase tracking-label text-brass;
+  }
+
+  /* Brass call-to-action button (2px radius). */
+  .btn-brass {
+    @apply inline-flex items-center justify-center gap-2 rounded-brass bg-brass px-6 py-3
+      font-body text-sm font-medium uppercase tracking-[0.14em] text-bone
+      transition-colors duration-200 hover:bg-brass-bright
+      focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-brass border border-pine/30
+      bg-transparent px-6 py-3 font-body text-sm font-medium uppercase tracking-[0.14em]
+      text-pine transition-colors duration-200 hover:border-pine hover:bg-pine hover:text-bone;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-brass px-4 py-2
+      font-body text-sm text-pine/80 transition-colors hover:bg-pine/5 hover:text-pine;
+  }
+
+  .field {
+    @apply w-full rounded-brass border border-pine/20 bg-bone px-4 py-3 font-body text-sm
+      text-ink placeholder:text-ink/40 focus:border-brass focus:outline-none
+      focus:ring-1 focus:ring-brass;
+  }
+
+  .field-label {
+    @apply mb-1.5 block font-body text-xs font-medium uppercase tracking-[0.12em] text-pine/70;
+  }
+
+  .card {
+    @apply overflow-hidden rounded-brass bg-white shadow-sm ring-1 ring-pine/5
+      transition-shadow duration-300 hover:shadow-xl;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 font-body text-[0.7rem]
+      font-medium uppercase tracking-[0.1em];
+  }
+
+  .container-edge {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Thin, on-brand scrollbar for the kanban / horizontal scrollers. */
+.scroll-slim::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.scroll-slim::-webkit-scrollbar-thumb {
+  background: rgba(22, 52, 42, 0.2);
+  border-radius: 999px;
+}
