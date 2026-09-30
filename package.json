@@ -1,9 +1,9 @@
 {
-  "name": "the-listing-engine",
+  "name": "the-body-reset-sales-page",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "The Listing Engine — a front-end-only real-estate lead-generation demo for Aha Luxury Homes.",
+  "description": "A mobile-first direct-response sales page for The Body Reset.",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
