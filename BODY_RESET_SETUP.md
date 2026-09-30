@@ -1,24 +1,29 @@
-# The Body Reset — launch setup
+# The Body Reset — launch handoff
 
-The sales page is driven by `src/pages/BodyResetPage.tsx`. Business settings, the FAQ access decision and all 15 testimonial records live in `src/data/bodyReset.ts`.
+The finished long-form page is implemented in `src/pages/BodyResetPage.tsx`, its responsive visual system is in `src/index.css`, and every business setting, FAQ and testimonial slot is centralized in `src/data/bodyReset.ts`.
 
-## Required before launch
+## Replace media
 
-1. Set `checkoutUrl`, `supportContact`, `accessDuration`, `metaPixelId` and `canonicalUrl` in `siteConfig`.
-2. Replace the three labelled Victoria placeholders in `BodyResetPage.tsx` with approved, compressed responsive images. Recommended source size is 1200 × 1500 (4:5), exported as AVIF and WebP.
-3. Add approved media paths and customer display information to the 15 testimonial records in `src/data/bodyReset.ts`. Do not publish a name, location or image without permission. Video posters should be compressed and the video itself should remain click-to-load/no-autoplay.
-4. Replace each product mockup placeholder with approved mockups and add the final Open Graph share image.
-5. Add real Privacy, Terms and Refund pages or URLs, verified support details and payment-provider security copy.
+- Replace the labelled Victoria hero, portrait and transformation `Placeholder` components in `BodyResetPage.tsx` with approved responsive `<picture>` assets (AVIF/WebP, with explicit dimensions).
+- Replace the labelled product mockup placeholder in the product reveal. The labels identify the phone/tablet, class, guide, calculator and tracker artwork required.
+- Populate the 15 records in `testimonials` in `src/data/bodyReset.ts`. Add `mediaSrc`, `posterSrc`, approved display details/caption and set `permissionConfirmed` only after permission is documented. The current UI deliberately shows obvious placeholders and no fabricated quotes.
+- When connecting media, render images with responsive sources and `loading="lazy"`; render video only after a click, never autoplay, and add captions/transcript links.
 
-## Tracking
+## Business configuration
 
-The lightweight `track()` helper pushes named events into `window.dataLayer`. It covers page view, CTA placements, checkout click, testimonial gallery, FAQs and 25/50/75/90% scroll depth. When a real Meta Pixel ID and loader are configured, CTA clicks may send `InitiateCheckout`.
+All launch controls are in `siteConfig` in `src/data/bodyReset.ts`:
 
-`Purchase` must only be sent from a verified payment-success page or server integration. It is intentionally never fired on this sales page. UTM values are retained in session storage and appended to the configured checkout URL.
+- `checkoutUrl`: verified checkout destination. Until supplied, every CTA safely returns to the offer section. UTM parameters are persisted and forwarded.
+- `metaPixelId`: real Meta Pixel ID. The page has hooks for `ViewContent` and `InitiateCheckout`; load the approved pixel script only after consent. Fire `Purchase` only from a verified payment-success state, never on a CTA click.
+- `accessDuration`: confirmed customer access period.
+- `supportContact`: approved support address/channel.
+- `countdown`: keep `enabled: false` until a real ISO deadline is supplied. Set its Lagos-time campaign deadline and desired expiry action; it never resets after expiry.
+- `purchaseNotifications`: keep disabled until a real backend/data source supplies consented purchase records. The data contract accepts `firstName`, `city`, `purchasedAt` and product; do not seed development names.
 
-## Integrity controls
+## Remaining launch TODOs
 
-- Countdown is disabled and requires a real fixed deadline, timezone, copy and expiry action.
-- Purchase notifications are disabled and have no records. Only permissioned, verified records may be supplied.
-- No testimonial copy or customer result is fabricated; every proof card is visibly marked as a placeholder.
-- The access-duration FAQ remains hidden until the business decision is supplied.
+Supply legal URLs (Privacy, Terms and Refund), support details, checkout/payment-provider details, access duration, approved Victoria/product imagery, real permissioned testimonials and any real campaign deadline. Confirm the exact delivery instructions shown after successful payment.
+
+## Preview and mobile QA
+
+Run `npm run dev -- --host 0.0.0.0`, open the printed local URL and use browser responsive mode at 320, 360, 375, 390, 414, 430, 768, 1024 and 1440px. At 390px, inspect the whole page first; then test CTA destinations, sticky CTA visibility, every FAQ, proof expansion/lightbox/Escape handling, exit modal, focus order and reduced-motion mode. Verify that countdown and purchase notifications remain absent without real data.
